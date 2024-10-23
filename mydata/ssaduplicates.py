@@ -11,24 +11,13 @@ _______________________________________________________________________________
 import pandas as pd
 
 local_data = pd.read_csv('mydata/stusorted.csv')
-ssa_names = pd.read_csv('mydata/babyNamesUSYOB-full.csv')
+ssa_names = pd.read_csv('mydata/ssaSorted.csv')
 
-unique_names = []
-for name in local_data['first']:
-    if name.capitalize() not in unique_names:
-        unique_names.append(name.capitalize())
+ssa_f = ssa_names[ssa_names['Sex'] == 'F']
 
-ulen = len(unique_names)
+local_f = local_data[local_data['first'].isin(ssa_f['Name'].values)]
 
-# n/ulen = x/250 --> x = 250n/ulen
-not_in = []
-for n, name in enumerate(unique_names):
-    for i in range(int(250*n/ulen)):
-        print('_', end='', flush=True)
-    print('/', end='', flush=True)
-    for i in range(int(250 - 250*n/ulen)):
-        print('|', end='', flush=True)
-    if name not in ssa_names['Name'].values:
-        not_in.append(name)
-    print('\r', end='')
-print(f'these are unnacounted for: {not_in}')
+print('f')
+print(local_f)
+print('all')
+print(local_data.iloc[0])
